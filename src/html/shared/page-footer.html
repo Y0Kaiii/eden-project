@@ -1,0 +1,54 @@
+<!-- START: Footer -->
+<!--
+    Additional Classes:
+        .nk-footer-parallax
+        .nk-footer-parallax-opacity
+-->
+<footer class="nk-footer{{ ' nk-footer-parallax' if footer_parallax }}{{ ' nk-footer-parallax-opacity' if footer_parallax_opacity }}">
+    <img class="nk-footer-top-corner" src="assets/images/footer-corner.png" alt="">
+
+    {% if footer_bg %}
+    <div class="bg-image">
+        <img src="{{ footer_bg }}" alt="" class="jarallax-img">
+    </div>
+    {% endif %}
+
+    <p class="text-center" style="font-size: 20px;">
+      "EdenVerden is a game-changer.It's not just a platform; it's a thriving digital ecosystem that's <br>
+       continually evolving and expanding. It's an exceptional tool that brings people closer together,<br>
+       even if ther're galaxies apart."         
+    </p>
+
+   
+    
+    <p class="text-center" style="color: #ECB145; font-size: 20px;">
+        Elon Tusk, CEO of Space-X Inc.
+    </p>
+
+    <div class="container">
+        <div class="nk-gap-2"></div>
+        <div class="nk-footer-logo">
+            
+            <a href="https://nkdev.info/" target="_blank"><img class="nk-img" src="assets/images/FooterLogo.png"></a>
+        
+        </div>
+        <div class="nk-gap"></div>
+
+        <div class="nk-footer-links">
+            <a href="#" target="_blank"><span class="icon fa fa-youtube" style="font-size: 35px; color:white;"></span></a>
+            <a href="#" target="_blank"><span class="icon fa fa-facebook" style="font-size: 35px; color:white;"></span></a>
+            <a href="#" target="_blank"><span class="icon fa fa-instagram" style="font-size: 35px; color:white;"></span></a>
+            <a href="#" target="_blank"><span class="icon fa fa-twitter" style="font-size: 35px; color:white;"></span></a>
+        </div>
+
+        <div class="nk-gap"></div>
+
+        <p class="text-center">
+            @2022 All Rights Reserved, Eden Verden 2023
+        </p>
+
+
+        <div class="nk-gap"></div>
+    </div>
+</footer>
+<!-- END: Footer -->

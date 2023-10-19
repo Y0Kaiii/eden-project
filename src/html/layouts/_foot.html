@@ -1,0 +1,439 @@
+
+<!-- START: Scripts -->
+
+<!-- Object Fit Polyfill -->
+<script src="assets/vendor/object-fit-images/dist/ofi.min.js"></script>
+
+<!-- GSAP -->
+<script src="assets/vendor/gsap/dist/gsap.min.js"></script>
+<script src="assets/vendor/gsap/dist/ScrollToPlugin.min.js"></script>
+
+<!-- Popper -->
+<script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Sticky Kit -->
+<script src="assets/vendor/sticky-kit/dist/sticky-kit.min.js"></script>
+
+<!-- Jarallax -->
+<script src="assets/vendor/jarallax/dist/jarallax.min.js"></script>
+<script src="assets/vendor/jarallax/dist/jarallax-video.min.js"></script>
+
+<!-- imagesLoaded -->
+<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+
+<!-- Flickity -->
+<script src="assets/vendor/flickity/dist/flickity.pkgd.min.js"></script>
+
+<!-- Isotope -->
+<script src="assets/vendor/isotope-layout/dist/isotope.pkgd.min.js"></script>
+
+<!-- Photoswipe -->
+<script src="assets/vendor/photoswipe/dist/photoswipe.min.js"></script>
+<script src="assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js"></script>
+
+<!-- Typed.js -->
+<script src="assets/vendor/typed.js/lib/typed.min.js"></script>
+
+<!-- Jquery Validation -->
+<script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+
+<!-- Jquery Countdown + Moment -->
+<script src="assets/vendor/jquery-countdown/dist/jquery.countdown.min.js"></script>
+<script src="assets/vendor/moment/min/moment.min.js"></script>
+<script src="assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
+
+<!-- Hammer.js -->
+<script src="assets/vendor/hammerjs/hammer.min.js"></script>
+
+<!-- NanoSroller -->
+<script src="assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js"></script>
+
+<!-- SoundManager2 -->
+<script src="assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js"></script>
+
+<!-- DateTimePicker -->
+<script src="assets/vendor/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
+
+<!-- Revolution Slider -->
+<script src="assets/vendor/revolution/js/jquery.themepunch.tools.min.js"></script>
+<script src="assets/vendor/revolution/js/jquery.themepunch.revolution.min.js"></script>
+<script src="assets/vendor/revolution/js/extensions/revolution.extension.video.min.js"></script>
+<script src="assets/vendor/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+<script src="assets/vendor/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+
+<!-- Keymaster -->
+<script src="assets/vendor/keymaster/keymaster.js"></script>
+
+<!-- Summernote -->
+<script src="assets/vendor/summernote/dist/summernote-bs4.min.js"></script>
+
+<!-- GODLIKE -->
+<script src="assets/js/godlike.min.js"></script>
+<script src="assets/js/godlike-init.js"></script>
+<!-- END: Scripts -->
+
+<script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script>
+<script>
+    //Google
+    function onLoadGoogleCallback() {
+        gapi.load('auth2', function () {
+            auth2 = gapi.auth2.init({
+                client_id: '300734836785-lksdd36jm0lgsiaclb5ldgmv9422d2o6.apps.googleusercontent.com',
+                cookiepolicy: 'single_host_origin',
+                scope: 'profile'
+            });         
+
+            auth2.attachClickHandler(element, {},
+                function (googleUser) {
+                    console.log('Signed in: ' + googleUser.getBasicProfile().getName());
+                    //Call API Signin...
+                    objUser = {
+                        "user_external_id": googleUser.getBasicProfile().getId(),
+                        "user_email": googleUser.getBasicProfile().getEmail(),
+                        "profile_name": googleUser.getBasicProfile().getName(),
+                        //"PROFILE_PICTURE": googleUser.getBasicProfile().getImageUrl(),
+                        "user_type" : "google"
+                    };
+
+                    $("#imgProfile").show();
+                    $("#imgProfile").attr("src", googleUser.getBasicProfile().getImageUrl());
+
+                    PostSignin(objUser);
+                    //sessionStorage.setItem('myUserEntity', JSON.stringify(objUser));
+
+                    
+
+                    //location.reload();
+
+                }, function (error) {
+                    console.log('Sign-in error', error);
+                    alert('Sign-in error : ' + error);
+                }
+            );
+
+            ChkSigned();
+        });
+
+        element = document.getElementById('googleSignIn');
+    }
+
+    async function ChkSigned() {
+        auth2 = await gapi.auth2.getAuthInstance();
+        if (auth2.isSignedIn.get()) {
+            var profile = auth2.currentUser.get().getBasicProfile();
+
+            //alert(profile.getEmail());
+            $("#imgProfile").show();
+            $("#imgProfile").attr("src", profile.getImageUrl());
+            //$(".nk-sign-toggle .nk-icon-toggle .nk-icon-toggle-front").html("<img src='" + profile.getImageUrl() + "' class='imgProfile-nav' />");
+            $(".nk-sign-toggle .nk-icon-toggle .nk-icon-toggle-front").html("<span class='fa fa-user'></span>");
+        }else{
+            //$("#imgProfile").hide();
+        }
+    }
+
+    async function signOut() {
+        var auth2 = await gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            sessionStorage.removeItem('userData');
+            sessionStorage.removeItem('userToken');
+            location.reload();
+        });
+    }
+
+
+    //Facebook
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '227177229575264',
+            cookie: true,
+            xfbml: true,
+            version: 'v12.0'
+        });
+
+        //Facebook
+        FB.getLoginStatus(function (response) {
+            //statusChangeCallback(response);
+            console.log(response);
+            if (response.status == "connected") {
+                FB.api('/me', function (response) {
+                    console.log(response.email); //get user email
+                    console.log(response.name);
+                    // you can store this data into your database
+        
+                    FB.api(
+                        '/' + response.id + '/picture',
+                        'GET',
+                        { "redirect": "false" },
+                        function (resp) {
+                            //console.log(resp);
+                            $("#imgProfile").show();
+                            $("#imgProfile").attr("src", resp.data.url);
+                            //$(".nk-sign-toggle .nk-icon-toggle .nk-icon-toggle-front").html("<img src='" + resp.data.url + "' class='imgProfile-nav' />");
+                            $(".nk-sign-toggle .nk-icon-toggle .nk-icon-toggle-front").html("<span class='fa fa-user'></span>");
+                        }
+                    );
+                });
+            }
+        });
+    };
+
+    function fb_login() {
+        FB.login(function (response) {
+
+            if (response.authResponse) {
+                //console.log(response); // dump complete info
+                access_token = response.authResponse.accessToken; //get access token
+                user_id = response.authResponse.userID; //get FB UID
+
+                FB.api('/me', function (response) {
+                    //console.log(response.email); //get user email
+                    //console.log(response.name);
+                    // you can store this data into your database
+                    //Call API Signin...
+                    var ProfileUrl = "";
+                    FB.api(
+                        '/' + response.id + '/picture',
+                        'GET',
+                        { "redirect": "false" },
+                        function (resp) {
+                            //console.log(resp);
+                            $("#imgProfile").show();
+                            $("#imgProfile").attr("src", resp.data.url);
+
+                            objUser = {
+                                "user_external_id": user_id,
+                                "user_email": "",
+                                "profile_name": response.name,
+                                //"PROFILE_PICTURE": resp.data.url,
+                                "user_type": "facebook"
+                            };
+            
+                            //sessionStorage.setItem('myUserEntity', JSON.stringify(objUser));
+
+                            PostSignin(objUser);
+                            //location.reload();
+                        }
+                    );
+
+                    
+                });
+
+
+            } else {
+                //user hit cancel button
+                console.log('User cancelled login or did not fully authorize.');
+
+            }
+        }, {
+            scope: 'public_profile,email'
+        });
+    }
+
+    function LogoutFB() {
+        FB.logout(function (response) {
+            console.log(response);
+            sessionStorage.removeItem('userData');
+            sessionStorage.removeItem('userToken');
+            location.reload();
+        });
+    }
+
+    var objUser = [];
+
+    async function PostSignin(pUserData) {
+        //$(".se-pre-con").fadeIn("slow");
+
+        await setTimeout(function () {
+            $.ajax({
+                type: "POST",
+                url: '{{UrlAPI}}/api/login/signin_ext',
+                //url: 'https://localhost:8002/api/login/signin_ext',
+                data: pUserData,
+                dataType: "json",
+                success: function (data) {
+                    if(data.code == 0){
+                        
+                        sessionStorage.setItem("userData", JSON.stringify(data.data));
+                        sessionStorage.setItem("userToken", JSON.stringify(data.token.accessToken));
+                        location.reload();
+                    }else{
+                        alert(data.message);
+                    }
+                    $(".se-pre-con").fadeOut("slow");
+                },
+                error: function () {
+                    alert("เกิดข้อผิดพลาดบางประการ [ajaxError] PostSignin()");
+                    $(".se-pre-con").fadeOut("slow");
+                }
+            });
+            }, 100);
+        $(".se-pre-con").fadeOut("slow");
+    }
+
+
+    $( document ).ready(function() {
+
+        //Login internal
+        $("#btnLogin").click(function(){
+            var strUser = $("#user_email").val();
+            var strPassword = $("#password").val();
+
+            if(strUser == "" ||strPassword == ""){
+                alert("input data!");
+            }else{
+                $.ajax({ 
+                    type: 'POST', 
+                    url: '{{UrlAPI}}/api/login', 
+                    //url: 'https://localhost:8002/api/login', 
+                    data: { username: strUser, password: strPassword}, 
+                    dataType: 'json',
+                    success: function (data) { 
+                        if(data.code == 0){
+                            //alert("Login Completed. Your name's " + data.data.user_name);
+                            sessionStorage.setItem("userData", JSON.stringify(data.data));
+                            sessionStorage.setItem("userToken", JSON.stringify(data.token.accessToken));
+                            location.reload();
+                        }else{
+                            alert(data.message);
+                        }
+                        
+                    },
+                    error: function (error) {
+                        alert("เกิดข้อผิดพลาดบางประการ [ajaxError]");
+                        console.log(error);
+                    }
+                });
+            }
+
+        })
+
+
+        $("#btnReg").click(function(){
+            //var strUser = $("#reg_username").val();
+            var strEmail = $("#reg_email").val().trim();
+            var strPassword = $("#reg_password").val().trim();
+
+            if(strEmail == "" ||strPassword == ""){
+                alert("input data!");
+            }else{
+                $.ajax({ 
+                    type: 'POST', 
+                    //url: 'https://edenverden.io:8002/api/login/Signin', 
+                    url: '{{UrlAPI}}/api/login/Signin', 
+                    data: { email: strEmail, password: strPassword}, 
+                    dataType: 'json',
+                    success: function (data) { 
+
+                        if(data.code == 0){
+                            //alert("Register Completed. Your name's " + data.data.username);
+                            sessionStorage.setItem("userData", JSON.stringify(data.data));
+                            location.reload();
+                        }else{
+                            alert(data.message);
+                        }
+                        
+                    },
+                    error: function (error) {
+                        alert("เกิดข้อผิดพลาดบางประการ [ajaxError]");
+                        console.log(error);
+                    }
+                });
+            }
+            
+        })
+        
+        
+        const userData = JSON.parse(sessionStorage.getItem("userData"));
+        const userToken = JSON.parse(sessionStorage.getItem("userToken"));
+
+        if(userData != null){
+            //alert("Logged in By : " + userData.email);
+            $(".nk-sign-form-profile").addClass("active");
+            $(".nk-sign-form-profile-toggle").addClass("active");
+            $(".nk-sign-form-profile").show()
+
+            $(".nk-sign-form-register").hide();
+            $(".nk-sign-form-register-toggle").hide();
+
+            $(".nk-sign-form-login").hide();
+            $(".nk-sign-form-login-toggle").hide();
+
+            $("#pro_username").val(userData.user_name);
+            $("#pro_email").val(userData.email);
+            $("#pro_fname").val(userData.fname);
+            $("#pro_lname").val(userData.lname);
+            $("#pro_tel").val(userData.tel);
+
+            if(userData.gender == "M"){
+                $("#pro_M").prop("checked", true);
+            }else if(userData.gender == "L"){
+                $("#pro_L").prop("checked", true);
+            }
+
+            $(".nk-sign-toggle .nk-icon-toggle .nk-icon-toggle-front").html("<span class='fa fa-user'></span>");
+            
+
+        }else{
+            $(".nk-sign-form-profile").hide();
+            $(".nk-sign-form-profile-toggle").hide();
+        }
+        
+        // $("#btnLogout").click(function(){
+        //     sessionStorage.removeItem("userData");
+        //     sessionStorage.removeItem("userToken");
+        //     location.reload();
+        // })
+
+    });
+
+    function regLogout(){
+        sessionStorage.removeItem("userData");
+        sessionStorage.removeItem("userToken");
+        location.reload();
+    }
+
+    function chkLogout(){
+        const userData = JSON.parse(sessionStorage.getItem("userData"));
+        if(userData != null){
+            switch(userData.user_type) {
+            case "register":
+                regLogout();
+                break;
+            case "google":
+                signOut();
+                break;
+            case "facebook":
+                LogoutFB();
+                break;
+            default:
+                regLogout();
+                break;
+            }
+        }else{
+            signOut();
+            LogoutFB();
+        }
+    }
+</script>
+
+<!-- Load the JS SDK asynchronously -->
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+<style>
+    .imgProfile{
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        display: none;
+    }
+
+    .imgProfile-nav{
+        width:24px;
+        height:24px;
+        border-radius:50%;
+    }
+</style>

@@ -1,0 +1,146 @@
+<!--
+    START: Sign Form
+
+    Additional Classes:
+        .nk-sign-form-light
+-->
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
+<div class="nk-sign-form">
+    <div class="nk-gap-5"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 offset-lg-4 col-md-6 offset-md-3">
+                <div class="nk-sign-form-container">
+                    <div class="nk-sign-form-toggle h3">
+                        <a href="#" class="nk-sign-form-login-toggle active">Log In</a>
+                        <a href="#" class="nk-sign-form-register-toggle">Register</a>
+                        <a href="#" class="nk-sign-form-profile-toggle">Profile</a>
+                    </div>
+                    <div class="nk-gap-2"></div>
+
+                    <!-- START: Login Form -->
+                    <form class="nk-sign-form-login active" action="#">
+                        <div class="logo-input-container">
+                            <img src="assets/images/EdenVerden.png" alt="Eden">
+                            <p class="Eden">EDEN VERDEN</p>
+                        </div>
+                        <div class="nk-gap-1"></div>
+                        <input class="form-control grey-border login-bg custom-font" type="text" placeholder="Email Address" name="user_email" id="user_email" required>
+                        <div class="nk-gap-1"></div>
+                        <input class="form-control grey-border login-bg custom-font" type="password" placeholder="Password" name="password" id="password" required>
+                        <div class="nk-gap-1"></div>
+                        <a class="nk-sign-form-lost-toggle float-left nk-sign-form-link-white custom-font" href="#">Forgot Password?</a>
+                        <!--<div class="form-check float-left">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input"> Remember Me </label>
+                        </div>-->
+                        <div class="nk-gap-1"></div>
+                        <div class="login-button-container">
+                        <button class="bk-btn nk-btn-login-no-border nk-btn-bg-lightorange float-top" id="btnLogin" type="button">LOG IN</button>
+                        </div>       
+                        <div class="clearfix"></div>
+                        <div class="nk-gap-1"></div>
+                        <!--<a class="nk-sign-form-lost-toggle float-right" href="#">Lost Password?</a>-->
+
+                        <div class="text-center">
+                            <h5>Or login using</h5>
+                            <!-- <a href="#"><image id="googleSignIn" src="~/images/item/EDEN-Login-Page_0002s_0004_GM.png"></image></a> -->         
+                            <button type="button" id="googleSignIn" class="nk-btn nk-btn-circle nk-btn-bg-lightorange">
+                                <i class="icon fa fa-google"></i>
+                            </button>
+                            <!-- <script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script> -->
+
+                            
+                            <button type="button" id="facebookSignIn" class="nk-btn nk-btn-circle nk-btn-bg-lightorange" onclick="fb_login();">
+                                <i class="fab fa-facebook-square"></i>
+                            </button>
+                        </div>
+                        
+                    </form>
+                    <!-- END: Login Form -->
+
+                    <!-- START: Lost Password Form -->
+                    <form class="nk-sign-form-lost" action="#">
+                        <div class="text-center">
+                            <h3>Forgot Password?</h3>
+                            <p>We'll send you a reset link if your account exists,</p>
+                        </div>
+                        <input class="form-control grey-border login-bg custom-font" type="text" placeholder="Email Address">
+                        <div class="nk-gap-2"></div>
+                        <div class="login-button-container">
+                        <button class="bk-btn nk-btn-login-no-border nk-btn-bg-lightorange">Reset my password</button>
+                        </div>
+                    </form>
+                    <!-- END: Lost Password Form -->
+
+                    <!-- START: Register Form -->
+                    <form class="nk-sign-form-register" action="#">
+                        <div class="logo-input-container">
+                            <img src="assets/images/EdenVerden.png" alt="Eden">
+                            <p class="Eden">EDEN VERDEN</p>
+                        </div>
+                        <!-- <input class="form-control grey-border login-bg custom-font" type="text" placeholder="Username" id="reg_username" required> -->
+                        <div class="nk-gap-2"></div> 
+                        <input class="form-control grey-border login-bg custom-font" type="email" placeholder="Email" id="reg_email" required>
+                        <div class="nk-gap-2"></div>
+                        <input class="form-control grey-border login-bg custom-font" type="password" placeholder="Password" id="reg_password" required>
+                        <div class="nk-gap-2"></div>
+                        <input class="form-control grey-border login-bg custom-font" type="password" placeholder="Confirm Password" id="Creg_password" required>
+                        <div class="nk-gap-2"></div>
+                        <label for="birthday">Date of Birth</label>
+                        <input class="form-control grey-border login-bg custom-font" type="date" placeholder="Date of Birth" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthday" required>
+                        <div class="nk-gap-2"></div>
+                        <input type="checkbox" class="form-check-input" id="acceptAge" required>
+                            <label class="form-check-label" for="acceptAge">
+                                By creating this account, I accept terms and conditions
+                                and confirming that I'm over 13 years old
+                            </label>
+                        <div class="nk-gap-2"></div>
+                        <!-- <div class="float-left">A password will be emailed to you.</div> -->
+                        <div class="login-button-container">
+                        <button class="bk-btn nk-btn-login-no-border nk-btn-bg-lightorange float-top" id="btnReg" type="button">Create Account</button>
+                        </div>
+                    </form>
+                    <!-- END: Register Form -->
+
+                    <!-- START: Profile Form -->
+                    <form class="nk-sign-form-profile" action="#" style="display: none;">
+                        
+                        <div id="Signined" class="text-center">
+                            <a id="status" style="color: #9d9d9d;">
+                                <img id="imgProfile" class="imgProfile" />
+                            </a>
+                        </div>
+    
+                        <!-- <a href="#" onclick="signOut();">Sign out</a>
+                        <a href="#" onclick="LogoutFB();">Sign out Facebook</a> -->
+
+                        <!-- <input class="form-control" type="text" placeholder="Username" id="pro_username" required>
+                        <div class="nk-gap-2"></div> -->
+                        <input class="form-control grey-border login-bg custom-font" type="text" placeholder="Email" id="pro_email" required>
+                        <!-- <div class="nk-gap-2"></div> -->
+                        <input class="form-control grey-border login-bg custom-font" type="text" placeholder="FirstName" id="pro_fname" required>
+                        <!-- <div class="nk-gap-2"></div> -->
+                        <input class="form-control grey-border login-bg custom-font" type="text" placeholder="LastName" id="pro_lname" >
+                        <!-- <div class="nk-gap-2"></div> -->
+                        <input class="" type="radio" name="gender" id="pro_M" style="margin-left: 17px;">
+                        <label for="pro_M">Man</label>&nbsp;
+                        <input class="" type="radio" name="gender" id="pro_L">
+                        <label for="pro_L">Lady</label>
+                        <!-- <div class="nk-gap-2"></div> -->
+                        <input class="form-control grey-border login-bg custom-font" type="text" placeholder="Tel" id="pro_tel" >
+                        <div class="nk-gap-2"></div>
+
+                        <!-- <div class="float-left">A password will be emailed to you.</div> -->
+                        <!-- <button class="nk-btn nk-btn-color-white link-effect-4 float-left" id="btnEditProfile" type="button">Update</button> -->
+                        <button class="nk-btn nk-btn-color-white link-effect-4 float-right" id="btnLogout" type="button" onclick="chkLogout();">Logout</button>
+                    </form>
+                    <!-- END: Profile Form -->
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nk-gap-5"></div>
+</div>
+<!-- END: Sign Form -->
